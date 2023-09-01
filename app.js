@@ -25,6 +25,8 @@ const articleSchema = {
 
 const Article = mongoose.model('Article', articleSchema);
 
+///////////////// Requests for all Articles /////////////////
+
 app
   .route('/articles')
 
@@ -58,6 +60,25 @@ app
     Article.deleteMany()
       .then(function (msg) {
         res.send('Success!');
+      })
+      .catch(function (err) {
+        res.send(err);
+      });
+  });
+
+///////////////// Requests for specific Articles /////////////////
+
+app
+  .route('/articles/:articleTitle')
+
+  .get(function (req, res) {
+    Article.findOne({ title: req.params.articleTitle })
+      .then(function (foundArticle) {
+        if (foundArticle) {
+          res.send(foundArticle);
+        } else {
+          res.send('No article found with such name!');
+        }
       })
       .catch(function (err) {
         res.send(err);
