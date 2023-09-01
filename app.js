@@ -15,6 +15,26 @@ app.use(
 
 app.use(express.static('public'));
 
+// Do not use localhost
+mongoose.connect('mongodb://127.0.0.1:27017/wikiDB');
+
+const articleSchema = {
+  title: String,
+  content: String,
+};
+
+const Article = mongoose.model('Article', articleSchema);
+
+app.get('/articles', function (req, res) {
+  Article.find({})
+    .then(function (foundArticles) {
+      console.log(foundArticles);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+});
+
 app.listen(3001, function () {
   console.log('Server on port 3001');
 });
