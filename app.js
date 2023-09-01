@@ -28,11 +28,16 @@ const Article = mongoose.model('Article', articleSchema);
 app.get('/articles', function (req, res) {
   Article.find({})
     .then(function (foundArticles) {
-      console.log(foundArticles);
+      res.send(foundArticles);
     })
     .catch(function (err) {
       console.log(err);
     });
+});
+
+app.post('/articles', function (req, res) {
+  console.log(req.body.title);
+  console.log(req.body.content);
 });
 
 app.listen(3001, function () {
