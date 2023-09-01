@@ -36,15 +36,29 @@ app.get('/articles', function (req, res) {
 });
 
 app.post('/articles', function (req, res) {
-  //   console.log();
-  //   console.log(req.body.content);
-
   const newArticle = new Article({
     title: req.body.title,
     content: req.body.content,
   });
 
-  newArticle.save();
+  newArticle
+    .save()
+    .then(function (msg) {
+      res.send('Success!');
+    })
+    .catch(function (err) {
+      res.send(err);
+    });
+});
+
+app.delete('/articles', function (req, res) {
+  Article.deleteMany()
+    .then(function (msg) {
+      res.send('Success!');
+    })
+    .catch(function (err) {
+      res.send(err);
+    });
 });
 
 app.listen(3001, function () {
